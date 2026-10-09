@@ -1,0 +1,67 @@
+{
+  "expo": {
+    "name": "NU Interactive Yearbook",
+    "slug": "nu-interactive-yearbook",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/NU_logo.png",
+    "scheme": "nuyearbook",
+    "userInterfaceStyle": "automatic",
+    "android": {
+      "package": "ph.edu.nu.yearbook",
+      "usesCleartextTraffic": true,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/NU_logo.png",
+        "backgroundColor": "#003DA5"
+      },
+      "edgeToEdgeEnabled": true,
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
+      ]
+    },
+    "ios": {
+      "bundleIdentifier": "ph.edu.nu.yearbook",
+      "supportsTablet": true
+    },
+    "web": {
+      "output": "static",
+      "favicon": "./assets/images/NU_logo.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/NU_logo.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#003DA5"
+        }
+      ],
+      "expo-font",
+      "expo-video",
+      "expo-audio"
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    },
+    "extra": {
+      "apiUrl": "https://yearbook-myji.onrender.com/api",
+      "authBaseUrl": "https://yearbook-myji.onrender.com",
+      "router": {},
+      "eas": {
+        "projectId": "d8da1a59-b679-4db5-a1d9-d223546b3b93"
+      }
+    },
+    "owner": "togi012322",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/d8da1a59-b679-4db5-a1d9-d223546b3b93"
+    }
+  }
+}

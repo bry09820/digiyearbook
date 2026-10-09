@@ -1,0 +1,56 @@
+import { Stack } from "expo-router";
+import React, { useEffect, useState } from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { configureReanimatedLogger, ReanimatedLogLevel } from "react-native-reanimated";
+import MaintenanceNotice from "../components/MaintenanceNotice";
+import PrivacyScreen from "../components/PrivacyScreen";
+import { getAppConfig, unwrap } from "../lib/api";
+
+configureReanimatedLogger({
+  level: ReanimatedLogLevel.warn,
+  strict: false,
+});
+
+export default function RootLayout() {
+  const [config, setConfig] = useState<any>(null);
+  const [maintenance, setMaintenance] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+    const loadConfig = async () => {
+      try {
+        const payload = await getAppConfig();
+        const nextConfig = unwrap(payload);
+        const maintenanceOn = Boolean(nextConfig?.features?.maintenance_mode || nextConfig?.maintenance_mode === true || nextConfig?.maintenance_mode === "1" || nextConfig?.maintenance_mode === 1);
+        if (active) {
+          setConfig(nextConfig);
+          setMaintenance(maintenanceOn);
+        }
+      } catch {
+        if (active) setMaintenance(false);
+      }
+    };
+    loadConfig();
+    const interval = setInterval(loadConfig, 30000);
+    return () => {
+      active = false;
+      clearInterval(interval);
+    };
+  }, []);
+
+  if (maintenance) {
+    return (
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <MaintenanceNotice config={config} />
+        <PrivacyScreen />
+      </GestureHandlerRootView>
+    );
+  }
+
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Stack screenOptions={{ headerShown: false }} />
+      <PrivacyScreen />
+    </GestureHandlerRootView>
+  );
+}
